@@ -31,7 +31,7 @@ File.open('emoji_emoticons-codes.php', 'w') { |f| f.write content.gsub('{codes}'
 
 puts "\nDone!\n"
 
-puts "\nResizing mojis...\n"
+puts "\nResizing emojis...\n"
 
 emojis = 'emoji-cheat-sheet.com/public/graphics/emojis/'
 
