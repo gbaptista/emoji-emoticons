@@ -52,4 +52,6 @@ Dir.entries(emojis).each do |emoji|
 end
 puts "\n"
 
+FileUtils.cp('emoji-cheat-sheet.com/LICENSE', 'emojis/LICENSE')
+
 puts "\nDone!\n"
