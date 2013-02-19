@@ -12,6 +12,8 @@ License: MIT
 
 if(!class_exists('Emoji_Emoticons')) {
 
+  require 'emoji_emoticons-codes.php';
+
   class Emoji_Emoticons {
 
     private static $instance;
@@ -29,7 +31,20 @@ if(!class_exists('Emoji_Emoticons')) {
 
     private function emoticon($code)
     {
-      return $code;
+
+      $code_k = str_replace(':', '', $code);
+
+      $image = Emoji_Emoticons_Codes::$codes[$code_k];
+
+      if(empty($image)) return $code;
+
+      $dir = array_reverse(explode('/', dirname(__FILE__)));
+      if($dir[0] == 'trunk') $dir[0] = $dir[1];
+
+      $url = plugins_url($dir[0].'/emojis/'.$image);
+
+      return '<img src="'.$url.'" class="emoji-smiley" width="20" height="20" title="'.$code_k.'" alt="'.$code_k.'" />'; exit;
+
     }
 
     public static function beforeFilter( $content ) {
@@ -38,6 +53,13 @@ if(!class_exists('Emoji_Emoticons')) {
       {
         foreach($results as $result) {
           foreach($result as $code) $content = str_replace($code, self::emoticon($code), $content);
+        }
+      }
+
+      if(preg_match_all('/:\S{1,}:/', $content, $results))
+      {
+        foreach($results as $result) {
+          foreach($result as $code) $content = str_replace($code, str_replace('\'', '', $code), $content);
         }
       }
 
