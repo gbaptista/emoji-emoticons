@@ -38,7 +38,10 @@ if(!class_exists('Emoji_Emoticons')) {
 
       if(empty($image)) return $code;
 
-      $dir = array_reverse(explode('/', dirname(__FILE__)));
+      // Fix for Windows...
+      if(preg_match('/\//', dirname(__FILE__))) $dir = array_reverse(explode('/', dirname(__FILE__)));
+      else $dir = array_reverse(explode('\\', dirname(__FILE__)));
+
       if($dir[0] == 'trunk') $dir[0] = $dir[1];
 
       $url = plugins_url($dir[0].'/emojis/'.$image);
